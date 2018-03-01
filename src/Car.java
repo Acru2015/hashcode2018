@@ -28,8 +28,9 @@ public class Car {
     }
 
     private void startNewRide() {
-        Ride newRide = rideDoneListener.getNewRide();
+        Ride newRide = null;
         if (currentRide != null) {
+            newRide = rideDoneListener.getNewRide(currentRide.getEndPoint());
             ridesDone.add(currentRide);
         }
         if (newRide != null) {
@@ -58,6 +59,6 @@ public class Car {
     }
 
     interface RideDoneListener {
-        Ride getNewRide();
+        Ride getNewRide(Point currentPosition);
     }
 }
