@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -22,6 +24,11 @@ public class Controller implements Car.RideDoneListener {
             for (Car car : cars) {
                 car.oneRound();
             }
+        }
+        try {
+            System.setOut(new PrintStream(fileName + ".solucion"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         for (Car car : cars) {
             car.printRidesDone();
