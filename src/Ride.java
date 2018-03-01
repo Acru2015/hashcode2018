@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Ride {
     private int id;
     private Point startPoint;
@@ -99,5 +101,19 @@ public class Ride {
             this.lastTimeToFinish = lastTimeToFinish;
             return this;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ride ride = (Ride) o;
+        return id == ride.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }
