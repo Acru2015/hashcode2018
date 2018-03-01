@@ -14,7 +14,7 @@ public class Controller implements Car.RideDoneListener {
     long currentTime = 0;
 
     public void start() {
-        for (int round = 0; round < stepsArray.length; round++) {
+        for (int round = 0; round < 4; round++) {
             cars = new LinkedList<>();
             int amountCars = amountCarsArray[round];
             long steps = stepsArray[round];
@@ -49,14 +49,21 @@ public class Controller implements Car.RideDoneListener {
         if (rideList.size() > 0) {
             Ride toReturn = null;
             int distanceToRide = Integer.MAX_VALUE;
-            for (Ride ride : rideList) {
-                int tempDistance = Util.getDistance(currentPosition, ride.getStartPoint());
-                if (tempDistance < distanceToRide) {
-                    distanceToRide = tempDistance;
-                    toReturn = ride;
+            rideList.sort(Comparator.comparingInt(ride -> Util.getDistance(currentPosition, ride.getStartPoint())));
+            int i = 0;
+            List<Ride> tempList = new LinkedList<>();
+            while (!rideList.isEmpty()) {
+                tempList.add(rideList.get(0));
+                rideList.remove(0);
+                i++;
+                if (i == 10) {
+                    break;
                 }
             }
-            rideList.remove(toReturn);
+            tempList.sort(Comparator.comparingLong(Ride::getLastTimeToFinish));
+            toReturn = tempList.get(0);
+            tempList.remove(0);
+            rideList.addAll(tempList);
             return toReturn;
         } else {
             return null;
